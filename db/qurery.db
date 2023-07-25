@@ -1,0 +1,27 @@
+-- SELECT ALL EMPOLOYEES
+SELECT *
+FROM employees JOIN roles ON roles.id = employees.role_id;
+
+SELECT 
+    employees.first_name, 
+    employees.last_name, 
+    roles.title, 
+    department.name, 
+    (SELECT first_name
+    FROM employees AS manager
+    WHERE manager.id = employees.manager_id) 
+    AS Manager
+FROM employees 
+JOIN roles ON roles.id = employees.role_id 
+JOIN department ON department.id = roles.department_id;
+
+SELECT 
+    employees.first_name, 
+    employees.last_name, 
+    roles.title, 
+    department.name, 
+    CONCAT(manager.first_name, ' ', manager.last_name) AS Manager
+FROM employees 
+JOIN roles ON roles.id = employees.role_id 
+JOIN department ON department.id = roles.department_id
+JOIN employees AS manager ON manager.id = employees.manager_id;
