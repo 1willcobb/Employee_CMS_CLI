@@ -14,9 +14,13 @@
     "ascii-art-table": "^1.0.1",
     "ascii-themes": "^1.0.1",
     "chalk": "^4.1.2",
+    "chalk-table": "^1.0.2",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "inquirer": "^8.2.4",
+    "mysql2": "^3.5.2",
     "node": "^20.4.0",
-    "npx": "^10.2.2"
+    "npx": "^10.2.2",
+    "table": "^6.8.1"
   }
 }
