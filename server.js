@@ -1,68 +1,103 @@
 require('dotenv').config()
 const inquirer = require('inquirer');
 const chalk = require('chalk');
-const helpers = require('./helpers/helpers')
-const db = require('./config/connection')
-const table = require('table')
-const chalkTable = require('chalk-table')
+const colors = require('./modules/colors')
+const dbFunc = require('./modules/db_functions')
 
-const options = {
-    leftPad: 2,
-    columns: [
-      { field: "id",     name: chalk.cyan("ID") },
-      { field: "fruit",  name: chalk.magenta("Fruit") },
-      { field: "veggie", name: chalk.green("Vegetable") },
-      { field: "other",  name: chalk.yellow("Other") }
-    ]
-  };
+const TreePrompt = require('inquirer-tree-prompt')
+inquirer.registerPrompt('tree', TreePrompt)
 
 chalk.level = 3;
 
-const Questions = [
-  {
-      name: 'start',
-      prefix: '=>>>>',
-      suffix: ' <<<<=',
-      message: 'What would you like to do',
-      choices: ['View All Departments', 
-                'View All Rolls', 
-                'View All Employees', 
-                'Add a Department', 
-                'Add a Roll', 
-                'Add an Employee', 
-                'Update Employee Role', 
-                'Update Employee Managers', 
-                'View Employees By Manager', 
-                'View Employees By Department', 
-                'Delete Department', 
-                'Delete Roll', 
-                'Delete Employee', 
-                'View Total Utilized Budget of Department'],
-      type: 'list',
-  },
+const exampleTree = [
+    {
+        type: 'tree',
+        name: 'location',
+        message: chalk.bgYellowBright.blueBright(' >> What Would you like to do? << '),
+        tree: [
+            {
+                name: "View Organization",
+                value: "VO",
+                open: false,
+                children: [
+                    { name: "View Departments", value: "VO_VD" },
+                    { name: "View Rolls", value: "VO_R" },
+                    { name: "View Employees", value: "VO_E" },
+                    { value: "View Employees by Manager" },
+                    { value: "View Employees by Department"}
+                ]
+            },
+            {
+                name: "Add New ITEM to Organization",
+                value: "NI",
+                open: false,
+                children: [
+                    { value: "Add a Department"},
+                    { value: "Add a Roll" },
+                    { value: "Add an Employee" }
+                ]
+            },
+            {
+                name: "Update Employee Information",
+                value: "UI",
+                open: false,
+                children: [
+                    { value: "Update Employee Role"},
+                    { value: "Update Employee Manager" }
+                ]
+            },
+            {
+                name: "Delete item from Organization",
+                value: "DI",
+                open: false,
+                children: [
+                    { value: "Delete Department"},
+                    { value: "Delete Roll" },
+                    { value: "Delete Employee" }
+                ]
+            },
+            {
+                name: "Organization Finances",
+                value: "OF",
+                open: false,
+                children: [
+                    { value: "Total Utilized budget of Department"},
+                    { value: "Total Organization Employment Expenses" }
+                ]
+            }
+        ]
+    }
 ]
 
 
-const viewAllDepartmentQuestion = () => {
-    db.query('SELECT * FROM employees', function (err,results){
-        console.log('')
-        console.log(chalk.magenta(chalkTable(results)))
-    })
-}
-
 const start = () => {
     inquirer
-        .prompt(Questions[0])
-        .then((answer) => {
-            if (answer.start === 'View All Departments'){
-                viewAllDepartmentQuestion()
+        .prompt(exampleTree)
+        .then((answer)=>{
+            const a = answer.location
+            if (a === 'VO' || 'NI' || 'UI' || 'DI' || 'OF') {
+                start();
             }
-    }).then(()=>{start()})
-};
+            if (a === 'VO_VD') {
+                dbFunc.viewAllDepartments(start)
+            }
+            if (a === 'VO_R'){
+                dbFunc.viewAllRolls(start)
+            }
+            if (a === 'VO_E'){
+                dbFunc.viewAllEmployees(start)
+            }
+        })
+        .catch((err)=>{
+            colors.logErr(err)
+        })
+}
 
 const init = () => {
-    helpers.logRandomColor(helpers.header);
+    colors.logRandomColor(colors.header);
     start();
 };
 
 init();
+
+
