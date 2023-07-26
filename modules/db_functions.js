@@ -13,13 +13,12 @@ const clearAnswers = () => {
     inquirer.prompt.answers = {};
 }
 
-//   { value: "View Rolls", },
-//   { value: "View Employees" },
-//   { value: "View Employees by Manager" },
-//   { value: "View Employees by Department"}
 
+
+
+// View All Departments
 const viewAllDepartments = (start) => {
-    db.query('SELECT name as Department, id AS "Department ID" FROM department', function (err,results){
+    db.query('SELECT name AS Department, id AS "Department ID" FROM department', function (err,results){
         if (results) {
             console.log("\n");
             colors.logRandomColor(chalkTable(tableOptions,results));
@@ -33,8 +32,9 @@ const viewAllDepartments = (start) => {
     })
 }
 
+// View All Employees
 const viewAllEmployees = (start) => {
-    db.query('SELECT CONCAT(first_name, " ", last_name) AS Employee FROM employees', function (err,results){
+    db.query('SELECT employees.id, employees.first_name AS "First Name", employees.last_name AS "Last Name", roles.title AS "Job Title", department.name AS "Department", roles.salary AS "Salary", (SELECT CONCAT(manager.first_name, " ", manager.last_name) FROM employees AS manager WHERE manager.id = employees.manager_id) as "Ranking Manger" FROM employees JOIN roles ON roles.id = employees.role_id JOIN department ON department.id = roles.department_id', function (err,results){
         if (results) {
             console.log("\n")
             colors.logRandomColor(chalkTable(tableOptions,results))
@@ -48,6 +48,7 @@ const viewAllEmployees = (start) => {
     })
 }
 
+// View All Rolls
 const viewAllRolls = (start) => {
     db.query('SELECT roles.title AS Position, roles.id AS "Role ID", (SELECT name FROM department WHERE department.id = roles.department_id) AS Department, roles.salary as Salary FROM roles JOIN department ON department.id = roles.department_id', function (err,results){
         if (results) {
@@ -63,7 +64,24 @@ const viewAllRolls = (start) => {
     })
 }
 
+// View All Employees by Department 
 const viewAllEmployeesByDepartment = (start) => {
+    db.query('SELECT name AS Departments FROM department', function (err,results){
+        if (results) {
+            console.log("\n")
+            colors.logRandomColor(chalkTable(tableOptions,results))
+            console.log("\n")
+            clearAnswers();
+            start()
+        } else {
+            colors.logErr(err)
+            start()
+        }
+    })
+}
+
+// View All Employees by Manager 
+const viewAllEmployeesByManager = (start) => {
     db.query('SELECT name AS Departments FROM department', function (err,results){
         if (results) {
             console.log("\n")
@@ -81,5 +99,8 @@ const viewAllEmployeesByDepartment = (start) => {
 module.exports = {
     viewAllDepartments,
     viewAllEmployees,
-    viewAllRolls
+    viewAllRolls,
+    viewAllDepartments,
+    viewAllEmployeesByManager,
+    viewAllEmployeesByDepartment
 }
