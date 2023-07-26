@@ -69,22 +69,18 @@ const exampleTree = [
     }
 ]
 
-
 const start = () => {
     inquirer
         .prompt(exampleTree)
         .then((answer)=>{
             const a = answer.location
-            if (a === 'VO' || 'NI' || 'UI' || 'DI' || 'OF') {
+            if ((a === 'VO') || (a === 'NI') || (a === 'UI') || (a === 'DI') || (a === 'OF')) {
                 start();
-            }
-            if (a === 'VO_VD') {
+            } else if (a === 'VO_VD') {
                 dbFunc.viewAllDepartments(start)
-            }
-            if (a === 'VO_R'){
+            } else if (a === 'VO_R'){
                 dbFunc.viewAllRolls(start)
-            }
-            if (a === 'VO_E'){
+            } else if (a === 'VO_E'){
                 dbFunc.viewAllEmployees(start)
             }
         })

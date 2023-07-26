@@ -1,12 +1,17 @@
 const colors = require('./colors')
 const db = require('../config/connection')
 const chalkTable = require('chalk-table')
+const inquirer = require('inquirer')
 
 const tableOptions = {
     leftPad: 2,
     skinny: true,
     intersectionCharacter: "@"
   };
+
+const clearAnswers = () => {
+    inquirer.prompt.answers = {};
+}
 
 //   { value: "View Rolls", },
 //   { value: "View Employees" },
@@ -16,10 +21,11 @@ const tableOptions = {
 const viewAllDepartments = (start) => {
     db.query('SELECT name as Department, id AS "Department ID" FROM department', function (err,results){
         if (results) {
-            console.log("\n")
-            colors.logRandomColor(chalkTable(tableOptions,results))
-            console.log("\n")
-            start()
+            console.log("\n");
+            colors.logRandomColor(chalkTable(tableOptions,results));
+            console.log("\n");
+            clearAnswers();
+            start();
         } else {
             colors.logErr(err)
             start()
@@ -33,6 +39,7 @@ const viewAllEmployees = (start) => {
             console.log("\n")
             colors.logRandomColor(chalkTable(tableOptions,results))
             console.log("\n")
+            clearAnswers();
             start()
         } else {
             colors.logErr(err)
@@ -47,6 +54,7 @@ const viewAllRolls = (start) => {
             console.log("\n")
             colors.logRandomColor(chalkTable(tableOptions,results))
             console.log("\n")
+            clearAnswers();
             start()
         } else {
             colors.logErr(err)
@@ -61,6 +69,7 @@ const viewAllEmployeesByDepartment = (start) => {
             console.log("\n")
             colors.logRandomColor(chalkTable(tableOptions,results))
             console.log("\n")
+            clearAnswers();
             start()
         } else {
             colors.logErr(err)
