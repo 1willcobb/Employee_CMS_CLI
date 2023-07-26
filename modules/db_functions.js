@@ -157,11 +157,8 @@ const getAllEmployeesData = () => {
       console.log('\nCompany Org Chart:');
       printOrgChart(orgChart);
       console.log('\n');
-      clearAnswers();
-      start();
     } catch (err) {
       colors.logErr(err);
-      start();
     }
   };
 

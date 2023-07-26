@@ -94,9 +94,9 @@ const start = () => {
 
 
 
-const init = () => {
+const init = async () => {
     colors.logRandomColor(colors.header);
-    dbFunc.viewOrgChartTree(start);
+    await dbFunc.viewOrgChartTree(start);
     start();
 };
 
