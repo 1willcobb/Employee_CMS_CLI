@@ -89,8 +89,14 @@ const start = () => {
         })
 }
 
+
+
+
+
+
 const init = () => {
     colors.logRandomColor(colors.header);
+    dbFunc.viewOrgChartTree(start);
     start();
 };
 

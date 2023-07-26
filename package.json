@@ -10,8 +10,6 @@
   "author": "Will Cobb",
   "license": "MIT",
   "dependencies": {
-    "ascii-art-font": "^1.0.2",
-    "ascii-art-table": "^1.0.1",
     "ascii-themes": "^1.0.1",
     "chalk": "^4.1.2",
     "chalk-table": "^1.0.2",
