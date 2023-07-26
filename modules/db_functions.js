@@ -14,7 +14,7 @@ const tableOptions = {
 //   { value: "View Employees by Department"}
 
 const viewAllDepartments = (start) => {
-    db.query('SELECT name, id AS Departments FROM department', function (err,results){
+    db.query('SELECT name as Department, id AS "Department ID" FROM department', function (err,results){
         if (results) {
             console.log("\n")
             colors.logRandomColor(chalkTable(tableOptions,results))
@@ -42,7 +42,7 @@ const viewAllEmployees = (start) => {
 }
 
 const viewAllRolls = (start) => {
-    db.query('SELECT roles.title, roles.id, roles.department_id, roles.salary FROM roles', function (err,results){
+    db.query('SELECT roles.title AS Position, roles.id AS "Role ID", (SELECT name FROM department WHERE department.id = roles.department_id) AS Department, roles.salary as Salary FROM roles JOIN department ON department.id = roles.department_id', function (err,results){
         if (results) {
             console.log("\n")
             colors.logRandomColor(chalkTable(tableOptions,results))
