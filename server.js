@@ -2,14 +2,15 @@ require('dotenv').config()
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const colors = require('./modules/colors')
-const dbFunc = require('./modules/db_functions')
+const db_view = require('./modules/db_view')
+const viewOrgChartTree = require('./modules/orgchart')
 
 const TreePrompt = require('inquirer-tree-prompt')
 inquirer.registerPrompt('tree', TreePrompt)
 
 chalk.level = 3;
 
-const exampleTree = [
+const mainQuestions = [
     {
         type: 'tree',
         name: 'location',
@@ -20,11 +21,12 @@ const exampleTree = [
                 value: "VO",
                 open: false,
                 children: [
+                    { name: "View Org Chart", value: "VO_OC" },
                     { name: "View Departments", value: "VO_VD" },
                     { name: "View Rolls", value: "VO_R" },
                     { name: "View Employees", value: "VO_E" },
-                    { value: "View Employees by Manager" },
-                    { value: "View Employees by Department"}
+                    { name: "View Employees by Manager", value: "VO_EM" },
+                    { name: "View Employees by Department", value: "VO_ED"}
                 ]
             },
             {
@@ -71,17 +73,23 @@ const exampleTree = [
 
 const start = () => {
     inquirer
-        .prompt(exampleTree)
+        .prompt(mainQuestions)
         .then((answer)=>{
             const a = answer.location
             if ((a === 'VO') || (a === 'NI') || (a === 'UI') || (a === 'DI') || (a === 'OF')) {
                 start();
+            } else if (a === "VO_OC") {
+                viewOrgChartTree(start)
             } else if (a === 'VO_VD') {
-                dbFunc.viewAllDepartments(start)
+                db_view.viewAllDepartments(start)
             } else if (a === 'VO_R'){
-                dbFunc.viewAllRolls(start)
+                db_view.viewAllRolls(start)
             } else if (a === 'VO_E'){
-                dbFunc.viewAllEmployees(start)
+                db_view.viewAllEmployees(start)
+            } else if (a === "VO_EM") {
+                db_view.viewAllEmployeesByManager(start)
+            } else if (a === "VO_ED"){
+                db_view.viewAllEmployeesByDepartment(start)
             }
         })
         .catch((err)=>{
@@ -96,7 +104,6 @@ const start = () => {
 
 const init = async () => {
     colors.logRandomColor(colors.header);
-    await dbFunc.viewOrgChartTree(start);
     start();
 };
 
