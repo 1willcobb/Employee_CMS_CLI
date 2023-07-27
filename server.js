@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 const chalk = require('chalk');
 const colors = require('./modules/colors')
 const db_view = require('./modules/db_view')
+const db_add = require('./modules/db_add')
 const viewOrgChartTree = require('./modules/orgchart')
 
 const TreePrompt = require('inquirer-tree-prompt')
@@ -34,9 +35,9 @@ const mainQuestions = [
                 value: "NI",
                 open: false,
                 children: [
-                    { value: "Add a Department"},
-                    { value: "Add a Roll" },
-                    { value: "Add an Employee" }
+                    { name: "Add a Department", value: "add_dp"},
+                    { name: "Add a Role", value: "add_role" },
+                    { name: "Add an Employee", value: "add_emp" }
                 ]
             },
             {
@@ -90,6 +91,12 @@ const start = () => {
                 db_view.viewAllEmployeesByManager(start)
             } else if (a === "VO_ED"){
                 db_view.viewAllEmployeesByDepartment(start)
+            } else if (a == "add_dp"){
+
+            } else if (a == "add_role"){
+
+            } else if (a == "add_emp"){
+                
             }
         })
         .catch((err)=>{

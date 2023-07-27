@@ -102,3 +102,6 @@ SELECT CONCAT(e.first_name, " ", e.last_name) AS Employee,  d.name AS Department
 SELECT id 
 FROM employees
 WHERE first_name = ? AND last_name = ?
+
+
+INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)

@@ -118,16 +118,6 @@ const viewAllEmployeesByManager = (start) => {
     })
 }
 
-const viewManager = () =>{
-    db.query('SELECT first_name FROM employees WHERE manager_id IS NULL'), function(err,results){
-        if (results) {
-            console.log(results)
-            //future add
-        }
-    }
-}
-
-viewManager()
 
 module.exports = {
     viewAllDepartments,
@@ -135,6 +125,5 @@ module.exports = {
     viewAllRolls,
     viewAllDepartments,
     viewAllEmployeesByManager,
-    viewAllEmployeesByDepartment,
-    viewManager
+    viewAllEmployeesByDepartment
 }
