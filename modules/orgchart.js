@@ -7,6 +7,8 @@ const clearAnswers = () => {
     inquirer.prompt.answers = {};
 }
 
+const colorArr = [colors.logOJ1, colors.logOJ2, colors.logOJ3, colors.logOJ4, colors.logOJ5]
+
 // 
 // START of org chart generator 
 //
@@ -44,17 +46,15 @@ const getAllEmployeesData = () => {
     return orgChart;
   }
   
+  
   // Function to print the org chart tree in CLI tree format
   function printOrgChart(orgChart, level = 0, prefix = '') {
-    const indent = '  ';
     const lastPrefix = prefix.slice(0, -1) + ' └─';
-    const colorArr = [colors.logOJ1, colors.logOJ2, colors.logOJ3, colors.logOJ4, colors.logOJ5]
     for (let i = 0; i < orgChart.length; i++) {
       const employee = orgChart[i];
       const isLast = i === orgChart.length - 1;
       const currentPrefix = isLast ? lastPrefix : prefix + '├─';
-      console.log(colorArr[i](currentPrefix + employee.name + ' - ' + employee.role + ' (' + employee.department + ')'));
-  
+      colors.logRandomColor((currentPrefix + employee.name + ' - ' + employee.role + ' (' + employee.department + ')'));
       const newPrefix = isLast ? prefix + '    ' : prefix + '│  ';
       printOrgChart(employee.subordinates, level + 1, newPrefix);
     }
