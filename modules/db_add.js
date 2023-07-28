@@ -27,18 +27,33 @@ function queryAsync(query, values) {
   }
 
 // View All Departments
-const addDepartment = (start) => {
+const addDepartment = async (start) => {
 
-    db.query('SELECT name AS Department, id AS "Department ID" FROM department', function (err,results){
-        if (results) {
-            colors.logRandomColor(chalkTable(tableOptions,results));
-            clearAnswers();
-            start();
-        } else {
-            colors.logErr(err)
-            start()
+    try {
+        const newDepartment = {
+            name: "department",
+            message: "What is the name of the new Department? "
         }
-    })
+    
+        const answer = await inquirer.prompt(newDepartment)
+        const department = answer.department
+    
+        db.query('INSERT INTO department (name) VALUES (?)', [department] , 
+            function (err,results){
+                if (results) {
+                    colors.logRandomColor(`${department} added to departments`)
+                    clearAnswers();
+                    start();
+                } else {
+                    colors.logErr(err)
+                    start()
+                }
+        })
+    }catch(err){
+        colors.logErr(err);
+        start();
+    }
+    
 }
 
 // View All Employees
