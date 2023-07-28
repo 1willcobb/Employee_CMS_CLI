@@ -53,27 +53,58 @@ const addDepartment = async (start) => {
         colors.logErr(err);
         start();
     }
-    
 }
 
 // View All Employees
-const addRole = (start) => {
-    db.query(`
-        SELECT 
-            roles.title AS Position, 
-            roles.id AS "Role ID", 
-            (SELECT name FROM department WHERE department.id = roles.department_id) AS Department, 
-            roles.salary as Salary 
-        FROM roles 
-        JOIN department ON department.id = roles.department_id`,
-        function (err,results){
-        if (results) {
+const addRole = async (start) => {
+    try {
+        let departments =[];
+        const departmentsQ = `SELECT name FROM department`
+    
+        const departmentResults = await queryAsync(departmentsQ);
+        departments = departmentResults.map(department => department.name);
+    
+        const addRoleQs = [
+            {
+                name: "title",
+                message: "Role Title: "
+            },
+            {
+                name: "salary",
+                message: "Salary: ",
+            },
+            {
+                name: "department_name",
+                message: "What Department does this role belong to:",
+                choices: departments,
+                type: "list"
+            }
+        ]
+        const rolesAnswers = await inquirer.prompt(addRoleQs)
+        const { title, salary, department_name } = rolesAnswers
+
+        const departmentIdQ = `SELECT id FROM department WHERE name = ?`;
+        
+        const department_id_a = await queryAsync(departmentIdQ, [department_name])
+        const department_id = department_id_a[0].id
+        if (rolesAnswers) { 
+
+            const insertRole = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`
+
+            await queryAsync(insertRole, [title, salary, department_id])
+            colors.logRandomColor(`${title} added to Roles`)
+            start()
 
         } else {
             colors.logErr(err)
             start()
         }
-    })
+        
+    } catch (err) {
+        colors.logErr(err);
+        start();
+    }
+
 }
 
  // View All Rolls

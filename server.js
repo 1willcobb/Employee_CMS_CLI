@@ -24,7 +24,7 @@ const mainQuestions = [
                 children: [
                     { name: "View Org Chart", value: "VO_OC" },
                     { name: "View Departments", value: "VO_VD" },
-                    { name: "View Rolls", value: "VO_R" },
+                    { name: "View Roles", value: "VO_R" },
                     { name: "View Employees", value: "VO_E" },
                     { name: "View Employees by Manager", value: "VO_EM" },
                     { name: "View Employees by Department", value: "VO_ED"}
