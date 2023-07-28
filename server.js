@@ -92,9 +92,9 @@ const start = () => {
             } else if (a === "VO_ED"){
                 db_view.viewAllEmployeesByDepartment(start)
             } else if (a == "add_dp"){
-                
+                db_add.addDepartment(start)
             } else if (a == "add_role"){
-
+                db_add.addRole(start)
             } else if (a == "add_emp"){
                 db_add.addEmployee(start)
             }
