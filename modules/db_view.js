@@ -89,14 +89,12 @@ const viewAllEmployeesByDepartment = (start) => {
 
 // View All Employees by Manager 
 const viewAllEmployeesByManager = (start) => {
-    db.query('SELECT CONCAT(e.first_name, " ", e.last_name) AS manager, e.id as managerID FROM employees AS e WHERE e.manager_id = 1 OR e.manager_id IS NULL', function (err,results){
+    db.query('SELECT CONCAT(e.first_name, " ", e.last_name) AS manager FROM employees AS e WHERE e.manager_id = 1 OR e.manager_id IS NULL', function (err,results){
         if (results) {
             //console.log(results)
             let managers = [];
-            let managerIDs = []
             for (const i of results){
                 managers.push(i.manager)
-                managerIDs.push(i.managerID)
             }
             let question = {
                 name: "answer",

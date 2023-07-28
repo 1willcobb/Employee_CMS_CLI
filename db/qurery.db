@@ -96,7 +96,15 @@ WHERE e.manager_id = 1 OR e.manager_id IS NULL
 
 
 -- SELECT ALL employees under manager
-SELECT CONCAT(e.first_name, " ", e.last_name) AS Employee,  d.name AS Department FROM department AS d  JOIN roles ON roles.department_id = d.id  JOIN employees AS e ON e.role_id = roles.id  WHERE e.manager_id = (SELECT m.id FROM employees AS m WHERE m.first_name = ? AND m.last_name = ?)
+SELECT CONCAT(e.first_name, " ", e.last_name) AS Employee,  
+d.name AS Department 
+FROM department AS d  
+JOIN roles ON roles.department_id = d.id  
+JOIN employees AS e ON e.role_id = roles.id  
+WHERE e.manager_id = 
+    (SELECT m.id 
+    FROM employees AS m 
+    WHERE m.first_name = ? AND m.last_name = ?)
 
 
 SELECT id 
