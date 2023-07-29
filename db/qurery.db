@@ -113,3 +113,8 @@ WHERE first_name = ? AND last_name = ?
 
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)
+
+
+
+
+WHERE department = department same and the manager_id = 1 or IS NULL

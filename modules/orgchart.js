@@ -1,11 +1,8 @@
 const colors = require('./colors')
 const db = require('../config/connection')
-const inquirer = require('inquirer');
 const chalk = require('chalk');
+const { clearAnswers } = require('./helpers')
 
-const clearAnswers = () => {
-    inquirer.prompt.answers = {};
-}
 
 const colorArr = [colors.logOJ1, colors.logOJ2, colors.logOJ3, colors.logOJ4, colors.logOJ5]
 

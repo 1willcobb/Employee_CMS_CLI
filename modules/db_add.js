@@ -1,30 +1,7 @@
-const colors = require('./colors')
-const db = require('../config/connection')
-const chalkTable = require('chalk-table')
+const colors = require('./colors');
+const db = require('../config/connection');
 const inquirer = require('inquirer');
-const chalk = require('chalk');
-
-const tableOptions = {
-    leftPad: 2,
-    skinny: true,
-    intersectionCharacter: "@"
-  };
-
-const clearAnswers = () => {
-    inquirer.prompt.answers = {};
-}
-
-function queryAsync(query, values) {
-    return new Promise((resolve, reject) => {
-      db.query(query, values, (error, results) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(results);
-        }
-      });
-    });
-  }
+const {queryAsync, clearAnswers} = require('./helpers')
 
 // View All Departments
 const addDepartment = async (start) => {

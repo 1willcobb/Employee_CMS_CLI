@@ -3,16 +3,13 @@ const db = require('../config/connection')
 const chalkTable = require('chalk-table')
 const inquirer = require('inquirer');
 const chalk = require('chalk');
+const { clearAnswers} = require('./helpers')
 
 const tableOptions = {
     leftPad: 2,
     skinny: true,
     intersectionCharacter: "@"
   };
-
-const clearAnswers = () => {
-    inquirer.prompt.answers = {};
-}
 
 // View All Departments
 const viewAllDepartments = (start) => {

@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const colors = require('./modules/colors')
 const db_view = require('./modules/db_view')
 const db_add = require('./modules/db_add')
+const db_update = require("./modules/db_update")
 const viewOrgChartTree = require('./modules/orgchart')
 
 const TreePrompt = require('inquirer-tree-prompt')
@@ -45,8 +46,8 @@ const mainQuestions = [
                 value: "UI",
                 open: false,
                 children: [
-                    { value: "Update Employee Role"},
-                    { value: "Update Employee Manager" }
+                    { name: "Update Employee Role", value: "update_role"},
+                    { name: "Update Employee Manager", value: "update_manager" }
                 ]
             },
             {
@@ -91,13 +92,19 @@ const start = () => {
                 db_view.viewAllEmployeesByManager(start)
             } else if (a === "VO_ED"){
                 db_view.viewAllEmployeesByDepartment(start)
-            } else if (a == "add_dp"){
+            } else if (a === "add_dp"){
                 db_add.addDepartment(start)
-            } else if (a == "add_role"){
+            } else if (a === "add_role"){
                 db_add.addRole(start)
-            } else if (a == "add_emp"){
+            } else if (a === "add_emp"){
                 db_add.addEmployee(start)
+            } else if (a === "update_role"){
+                db_update.updateEmployeeRole(start)
+            } else if (a === "update_manager") {
+                db_update.updateEmployeeManager(start)
             }
+
+
         })
         .catch((err)=>{
             colors.logErr(err)
