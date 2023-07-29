@@ -4,7 +4,7 @@ const {queryAsync, clearAnswers} = require('./helpers')
 
 const deleteDepartment = async start => {
     try{
-
+        
 
 
     }catch (err){
@@ -40,6 +40,7 @@ const deleteRole = async start => {
         const answer_id = await queryAsync(vQuery, [role])
         const id = answer_id[0].id
 
+        //check if there are employees under that role so that they can be moved to a different role. 
         if (id > 0) {
             colors.logErr("There are employees with this role that need to be moved to different roles before deleting this role.")
             await start()
