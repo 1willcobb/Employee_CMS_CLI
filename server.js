@@ -5,6 +5,7 @@ const colors = require('./modules/colors')
 const db_view = require('./modules/db_view')
 const db_add = require('./modules/db_add')
 const db_update = require("./modules/db_update")
+const db_delete = require("./modules/db_delete")
 const viewOrgChartTree = require('./modules/orgchart')
 
 const TreePrompt = require('inquirer-tree-prompt')
@@ -55,9 +56,9 @@ const mainQuestions = [
                 value: "DI",
                 open: false,
                 children: [
-                    { value: "Delete Department"},
-                    { value: "Delete Roll" },
-                    { value: "Delete Employee" }
+                    { name: "Delete Department", value: "d_d"},
+                    { name: "Delete Role", value: "d_r" },
+                    { name: "Delete Employee", value: "d_e"}
                 ]
             },
             {
@@ -102,6 +103,12 @@ const start = () => {
                 db_update.updateEmployeeRole(start)
             } else if (a === "update_manager") {
                 db_update.updateEmployeeManager(start)
+            } else if (a === "d_d"){
+                db_delete.deleteDepartment(start)
+            } else if (a === "d_r") {
+                db_delete.deleteRole(start)
+            } else if (a === "d_e"){
+                db_delete.deleteEmployee(start)
             }
 
 
