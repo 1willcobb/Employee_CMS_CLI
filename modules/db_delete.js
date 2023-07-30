@@ -4,8 +4,54 @@ const {queryAsync, clearAnswers} = require('./helpers')
 
 const deleteDepartment = async start => {
     try{
-        
+        let departments = []
 
+        const departmentQ = `SELECT name FROM department`
+        const departmentReturn = await queryAsync(departmentQ) 
+
+        for (const i of departmentReturn){
+            departments.push(i.name)
+        }
+
+        const deleteDQPrompt = {
+            name: "department",
+            message: "What department do you want to delete?",
+            choices: departments,
+            type: "list",
+        }
+
+        const answer_department = await inquirer.prompt(deleteDQPrompt)
+        const department = answer_department.department
+    
+        const dQuery = `
+            SELECT employees.id
+            FROM employees 
+            JOIN roles ON roles.id = employees.role_id 
+            JOIN department ON department.id = roles.department_id 
+            WHERE department.name = ?
+        `
+        const employees = []
+        const employee_id_answer = await queryAsync(dQuery, [department])
+
+        for (const i of employee_id_answer){
+            employees.push(employee_id_answer[i])
+        }
+
+        //check if there are employees under that role so that they can be moved to a different role. 
+        if (employees.length > 0) {
+            colors.logErr("There are employees under this department that need to be moved to different roles or departments before deleting.")
+            await start()
+        } else {
+            const deleteRQ = `
+                DELETE FROM department WHERE name = ?
+            `
+            await queryAsync(deleteRQ, [department])
+
+            colors.logRandomColor(`${department} successfully deleted`)
+
+            clearAnswers()
+            start()
+        }
 
     }catch (err){
         colors.logErr(err)
@@ -37,11 +83,14 @@ const deleteRole = async start => {
         const vQuery = `
             SELECT id FROM employees WHERE role_id = (SELECT id FROM roles WHERE title = ?)
         `
+        const employees = []
         const answer_id = await queryAsync(vQuery, [role])
-        const id = answer_id[0].id
+        for (const i of answer_id){
+            employees.push(answer_id[i])
+        }
 
         //check if there are employees under that role so that they can be moved to a different role. 
-        if (id > 0) {
+        if (employees.length > 0) {
             colors.logErr("There are employees with this role that need to be moved to different roles before deleting this role.")
             await start()
         } else {
