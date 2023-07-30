@@ -32,6 +32,15 @@ npm install
 
   You will need mysql setup on your dev device.
 
+  mysql connections are hidden in a .env file with the following layout. Create and place your login information in this file:
+
+  ```
+  DB = <db created in employee.db>
+  PASSWORD = <password>
+  ```
+
+  you will also need to source your db with employee.db and seed it with seed.db
+
 ## Usage
 
 once packages installed, open a terminal and type the following: 
