@@ -17,6 +17,13 @@ const updateEmployeeRole = async start => {
             roles.push(i.title)
         }
 
+        const employeeQ = `SELECT CONCAT(first_name, " ", last_name) AS employee FROM employees`
+        const employeeReturn = await queryAsync(employeeQ) 
+
+        for (const i of employeeReturn){
+            employees.push(i.employee)
+        }
+
         const updateRoleQ = [
             {
                 name: "employee",
