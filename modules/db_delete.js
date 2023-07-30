@@ -47,8 +47,11 @@ const deleteDepartment = async start => {
             `
             await queryAsync(deleteRQ, [department])
 
-            colors.logRandomColor(`${department} successfully deleted`)
+            console.log("\n");
+            colors.logRandomColor(`${department} successfully deleted`);
+            console.log("\n");
 
+            
             clearAnswers()
             start()
         }
@@ -99,7 +102,9 @@ const deleteRole = async start => {
             `
             await queryAsync(deleteRQ, [role])
 
+            console.log("\n");
             colors.logRandomColor(`${role} successfully deleted`)
+            console.log("\n");
 
             clearAnswers()
             start()
@@ -140,7 +145,9 @@ const deleteEmployee = async start => {
 
         await queryAsync(deleteEQ, [first_name, last_name])
 
+        console.log("\n");
         colors.logRandomColor(`${employee} successfully deleted`)
+        console.log("\n");
 
         clearAnswers()
         start()

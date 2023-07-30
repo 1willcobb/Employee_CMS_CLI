@@ -132,9 +132,18 @@ FROM employees
 i need to check
 if there are employees in a department
 
+-- select employee id if they are in a department
 select employees.id 
 FROM employees 
 JOIN roles ON roles.id = employees.role_id 
 JOIN department ON department.id = roles.department_id 
 WHERE department.name = "Human Resources" 
 
+--select all employee salary within a department
+SELECT salary 
+FROM roles 
+JOIN employees ON employees.role_id = roles.id
+JOIN department ON department.id = roles.department_id 
+WHERE department.name = "Human Resources"
+
+--select 

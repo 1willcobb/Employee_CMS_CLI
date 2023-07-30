@@ -53,7 +53,10 @@ const updateEmployeeRole = async start => {
             WHERE first_name = ? AND last_name = ?
         `
         await queryAsync(updateRole, [role_id, first_name, last_name])
+
+        console.log("\n");
         colors.logRandomColor(`${employee} role updated to ${role}`)
+        console.log("\n");
 
         clearAnswers()
         start()
@@ -115,8 +118,6 @@ const updateEmployeeManager = async start => {
         const manager_id_return = await queryAsync(managerIdQ, [m_first_name, m_last_name])
         const manager_id = manager_id_return[0].id
 
-        console.log(manager_id)
-
         const [ first_name, last_name ] = employee.split(' ');
 
         const updateRole = `
@@ -125,7 +126,10 @@ const updateEmployeeManager = async start => {
             WHERE first_name = ? AND last_name = ?
         `
         await queryAsync(updateRole, [manager_id, first_name, last_name])
+
+        console.log("\n");
         colors.logRandomColor(`${employee} manager updated to ${manager}`)
+        console.log("\n");
 
         clearAnswers()
         start()

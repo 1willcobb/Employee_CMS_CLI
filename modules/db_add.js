@@ -18,7 +18,9 @@ const addDepartment = async (start) => {
         db.query('INSERT INTO department (name) VALUES (?)', [department] , 
             function (err,results){
                 if (results) {
+                    console.log("\n");
                     colors.logRandomColor(`${department} added to departments`)
+                    console.log("\n");
                     clearAnswers();
                     start();
                 } else {
@@ -69,7 +71,9 @@ const addRole = async (start) => {
             const insertRole = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`
 
             await queryAsync(insertRole, [title, salary, department_id])
+            console.log("\n");
             colors.logRandomColor(`${title} added to Roles`)
+            console.log("\n");
             start()
 
         } else {
@@ -129,8 +133,6 @@ const addEmployee = async (start) => {
     
         const answers = await inquirer.prompt(addEmployeePrompts);
 
-        console.log(answers.role_id)
-
         const managerIdQuery = `
             SELECT m.id as manager_id
             FROM employees AS m 
@@ -154,7 +156,9 @@ const addEmployee = async (start) => {
 
         await queryAsync(insertQ, [first_name, last_name, role_id, manager_id])
 
+        console.log("\n");
         colors.logRandomColor(`${first_name} ${last_name} added to Employee Database.`)
+        console.log("\n");
         clearAnswers();
         start()
     } catch (err) {

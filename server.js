@@ -6,6 +6,7 @@ const db_view = require('./modules/db_view')
 const db_add = require('./modules/db_add')
 const db_update = require("./modules/db_update")
 const db_delete = require("./modules/db_delete")
+const db_finances = require("./modules/db_finances")
 const viewOrgChartTree = require('./modules/orgchart')
 
 const TreePrompt = require('inquirer-tree-prompt')
@@ -66,8 +67,8 @@ const mainQuestions = [
                 value: "OF",
                 open: false,
                 children: [
-                    { value: "Total Utilized budget of Department"},
-                    { value: "Total Organization Employment Expenses" }
+                    { name: "Total Utilized budget of Department", value: "Total_Department_Budget"},
+                    { name: "Total Organization Employment Expenses", value: "Total_Org_Expenses" }
                 ]
             }
         ]
@@ -109,18 +110,16 @@ const start = () => {
                 db_delete.deleteRole(start)
             } else if (a === "d_e"){
                 db_delete.deleteEmployee(start)
+            } else if (a === "Total_Department_Budget"){
+                db_finances.totalDepartmentBudget(start)
+            } else if (a === "Total_Org_Expenses"){
+                db_finances.totalOrgExpenses(start)
             }
-
-
         })
         .catch((err)=>{
             colors.logErr(err)
         })
 }
-
-
-
-
 
 
 const init = async () => {
